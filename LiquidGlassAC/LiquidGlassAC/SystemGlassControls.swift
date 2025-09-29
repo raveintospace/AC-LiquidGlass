@@ -19,37 +19,45 @@ struct SystemGlassControls: View {
                 backgroundRectangle
                 
                 ScrollView {
-                    VStack() {
-                        HStack {
-                            Text("Volume")
-                            Spacer()
-                            Text("\(Int(sliderValue))%")
-                                .padding(.horizontal)
-                                .glassEffect()
-                        }
-                        
-                        Slider(value: $sliderValue, in: 1...100)
-                        
-                        Toggle(isOn: $isOn) {
-                            Text("Active")
-                        }
-                        .padding(.top)
-                        
-                        Picker("Theme", selection: $segmented) {
-                            Text("Clear").tag(0)
-                            Text("Dark").tag(1)
-                            Text("Cristal").tag(2)
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.top)
-                    }
-                    .padding()
-                    .glassEffect(.clear, in: .rect(cornerRadius: 10))
+                    controlsVStack
+                    controlsVStack
+                    controlsVStack
+                    controlsVStack
                 }
             }
             .safeAreaPadding()
             .navigationTitle("Elements")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                
+                // Top
+                ToolbarItemGroup {
+                    Button("Speaker on", systemImage: "speaker") {}
+                    Button("Speaker off", systemImage: "speaker.slash") {}
+                }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Add", systemImage: "plus") {}
+                }
+                
+                // Separates toolbar buttons
+                ToolbarSpacer(.fixed, placement: .topBarLeading)
+               
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Remove", systemImage: "minus") {}
+                }
+                
+                // Bottom
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Plane", systemImage: "airplane") {}
+                }
+                ToolbarSpacer(.flexible, placement: .bottomBar)
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Button("Car", systemImage: "car") {}
+                    Button("Ferry", systemImage: "ferry") {}
+                }
+            }
+            
         }
     }
 }
@@ -70,5 +78,34 @@ extension SystemGlassControls {
                 ], startPoint: .topLeading, endPoint: .bottomTrailing)
             )
             .ignoresSafeArea()
+    }
+    
+    private var controlsVStack: some View {
+        VStack() {
+            HStack {
+                Text("Volume")
+                Spacer()
+                Text("\(Int(sliderValue))%")
+                    .padding(.horizontal)
+                    .glassEffect()
+            }
+            
+            Slider(value: $sliderValue, in: 1...100)
+            
+            Toggle(isOn: $isOn) {
+                Text("Active")
+            }
+            .padding(.top)
+            
+            Picker("Theme", selection: $segmented) {
+                Text("Clear").tag(0)
+                Text("Dark").tag(1)
+                Text("Cristal").tag(2)
+            }
+            .pickerStyle(.segmented)
+            .padding(.top)
+        }
+        .padding()
+        .glassEffect(.clear, in: .rect(cornerRadius: 10))
     }
 }
